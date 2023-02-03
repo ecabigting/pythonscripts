@@ -1,6 +1,12 @@
 from cryptography.fernet import Fernet
 root_pwd = input("root:")
 
+def write_key():
+    key = Fernet.generate_key()
+    # "wb" write byte mode
+    with open("key.key","wb") as key_file:
+        key_file.write(key)
+
 def view():
     with open("plist.txt","r") as f:
         for line in f.readlines(): # read all the lines in the file
@@ -16,13 +22,15 @@ def add():
     uname = input("Set Username: ")
     pword = input("Set Password: ")
 
-    # set the open mode to "a" append, add the
-    # declare it as "f" to automatically handle open and closing of
-    # file instead of declaring it as a file that manually opens and needs closing
-    # additional parameters instead of "a"
-    # "w" for write, override if file exist
-    # "r" only open as read-only, throws an error if file does not exist
-    # "a" append mode, add to the end of file, or create the file if it does not exist
+    '''
+    set the open mode to "a" append, add the
+    declare it as "f" to automatically handle open and closing of
+    file instead of declaring it as a file that manually opens and needs closing
+    additional parameters instead of "a"
+    "w" for write, override if file exist
+    "r" only open as read-only, throws an error if file does not exist
+    "a" append mode, add to the end of file, or create the file if it does not exist
+    '''
     with open("plist.txt","a") as f:
         f.write(label + "|" + uname + "|" + pword + "\n")
         
