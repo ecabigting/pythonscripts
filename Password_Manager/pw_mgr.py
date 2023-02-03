@@ -22,7 +22,7 @@ def view():
             dLabel, dUname, dPword = data.split("|")
             print(" >> Label: " + dLabel)
             print(" >> Username: " + dUname)
-            print(" >> Access: " + dPword)
+            print(" >> Access: " + fer.decrypt(dPword.encode()).decode())
             print("....")
 
 def add():
@@ -40,7 +40,7 @@ def add():
     "a" append mode, add to the end of file, or create the file if it does not exist
     '''
     with open("plist.txt","a") as f:
-        f.write(label + "|" + uname + "|" + fer.encrypt(pword.encode()) + "\n")
+        f.write(label + "|" + uname + "|" + fer.encrypt(pword.encode()).decode() + "\n")
 
 #endregion
 
@@ -52,7 +52,7 @@ else:
 
 root_pwd = input("root:")   
 
-key = load_key() + root_pwd.bytes
+key = load_key() + str(root_pwd.encode())
 fer = Fernet(key)
 
 while True:
