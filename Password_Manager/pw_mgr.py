@@ -1,7 +1,9 @@
-root_pwd = input("root?:")
+root_pwd = input("root:")
 
 def view():
-    pass #keyword literal do nothing
+    with open("plist.txt","r") as f:
+        for line in f.readlines(): # read all the lines in the file
+            print(line)
 
 def add():
     label = input("Give this credentials a label: ")
@@ -16,11 +18,11 @@ def add():
     # "r" only open as read-only, throws an error if file does not exist
     # "a" append mode, add to the end of file, or create the file if it does not exist
     with open("plist.txt","a") as f:
-        f.write(label + "|" + uname + "|" + "|" + pword)
+        f.write(label + "|" + uname + "|" + pword + "\n")
         
 
 while True:
-    mode = input("New Password(cmd:add)? View Existing(cmd: view)?").lower()
+    mode = input("New Password(cmd:add) View Existing(cmd: view) Quit(cmd: q) ").lower()
     if mode == "q":
         break
 
