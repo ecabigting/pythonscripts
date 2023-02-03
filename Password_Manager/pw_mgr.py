@@ -1,8 +1,10 @@
+import base64
 from cryptography.fernet import Fernet
 import os.path
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 
 #region function definitions
-
 def write_key():
     key = Fernet.generate_key()
     # "wb" write byte mode
@@ -48,14 +50,15 @@ def add():
 #endregion
 
 if(os.path.exists("key.key")):
-    key = load_key()
+    theSalt = load_key()
 else:
     write_key()
-    key = load_key()
+    theSalt = load_key()
 
 root_pwd = input("root:")   
 
-key = load_key() + str(root_pwd.encode())
+kdf = PBKDF2HMAC(algorithm=hashes.SHA256(),length=32,salt=theSalt.encode(),iterations=480000,)
+key = base64.urlsafe_b64encode(kdf.derive(root_pwd.encode()))
 fer = Fernet(key)
 
 while True:
