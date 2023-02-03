@@ -3,7 +3,12 @@ root_pwd = input("root:")
 def view():
     with open("plist.txt","r") as f:
         for line in f.readlines(): # read all the lines in the file
-            print(line)
+            data = line.rstrip() # rstrip remove the breakline in the end of the file
+            dLabel, dUname, dPword = data.split("|")
+            print(" >> Label: " + dLabel)
+            print(" >> Username: " + dUname)
+            print(" >> Access: " + dPword)
+            print("....")
 
 def add():
     label = input("Give this credentials a label: ")
