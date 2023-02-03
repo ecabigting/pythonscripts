@@ -1,11 +1,19 @@
 from cryptography.fernet import Fernet
-root_pwd = input("root:")
+import os.path
+
+#region function definitions
 
 def write_key():
     key = Fernet.generate_key()
     # "wb" write byte mode
     with open("key.key","wb") as key_file:
         key_file.write(key)
+
+def load_key():
+    keyFile = open("key.key","r")
+    key = keyFile.read()
+    keyFile.close()
+    return key
 
 def view():
     with open("plist.txt","r") as f:
@@ -32,8 +40,20 @@ def add():
     "a" append mode, add to the end of file, or create the file if it does not exist
     '''
     with open("plist.txt","a") as f:
-        f.write(label + "|" + uname + "|" + pword + "\n")
-        
+        f.write(label + "|" + uname + "|" + fer.encrypt(pword.encode()) + "\n")
+
+#endregion
+
+if(os.path.exists("key.key")):
+    key = load_key()
+else:
+    write_key()
+    key = load_key()
+
+root_pwd = input("root:")   
+
+key = load_key() + root_pwd.bytes
+fer = Fernet(key)
 
 while True:
     mode = input("New Password(cmd:add) View Existing(cmd: view) Quit(cmd: q) ").lower()
