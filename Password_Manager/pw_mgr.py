@@ -16,6 +16,8 @@ def load_key():
     return key
 
 def view():
+    print("-- Password Manager List--")
+    print("...")
     with open("plist.txt","r") as f:
         for line in f.readlines(): # read all the lines in the file
             data = line.rstrip() # rstrip remove the breakline in the end of the file
@@ -24,6 +26,7 @@ def view():
             print(" >> Username: " + dUname)
             print(" >> Access: " + fer.decrypt(dPword.encode()).decode())
             print("....")
+    print("-- End of List ---")
 
 def add():
     label = input("Give this credentials a label: ")
